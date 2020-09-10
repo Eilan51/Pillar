@@ -1,0 +1,29 @@
+<?php
+require_once './core/index.php';
+
+$inputCount = count($argv) > 1;
+
+if($inputCount < 2) {
+  die('Give a command!');
+}
+
+$command = $argv[1];
+
+$arguments = [];
+if(count($argv) > 2) {
+  for($i = 2; $i < count($argv); $i++) {
+    $argument = explode('=', $argv[$i]);
+
+    if(strpos($argument[0], '--') === false) {
+      die($argument[0] . ' is not a valid argument');
+    }
+
+    $argumentName = substr($argument[0], 2);
+    $argumentValue = $argument[1];
+
+    $arguments[$argumentName] = $argumentValue;
+  }
+}
+
+command($command, $arguments);
+
